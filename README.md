@@ -217,8 +217,56 @@ For example, you can use `ffmpeg` like this:
 
 ```bash
 ffmpeg -i input.mp3 -ar 16000 -ac 1 -c:a pcm_s16le output.wav
-```
+```  
 
+# **My own commands:**
+
+## install c/C++ compiler
+
+**in WSL Ubuntu shell**
+
+```
+# Install ccache (example for Debian/Ubuntu)  
+sudo apt-get update  
+sudo apt-get install ccache  
+  
+# Install GCC and G++ if not already installed  
+sudo apt-get install gcc g++  
+  
+# Check if compilers can be executed  
+gcc --version  
+g++ --version  
+  
+# Check and modify PATH if necessary  
+echo $PATH  
+export PATH=$PATH:/path/to/compiler  
+  
+# Adjust permissions if necessary  
+chmod +x $(which cc)  
+chmod +x $(which c++)  
+  
+# Review and correct the Makefile as needed
+```
+convert the audio
+```bash
+ffmpeg -i C:\Projects\whisper.cpp\samples\jfk.mp3 -ar 16000 -ac 1 -c:a pcm_s16le C:\Projects\whisper.cpp\out\build\x64-Debug\bin\audio\output.wav
+``` 
+my aoudio
+```bash
+ffmpeg -i "samples/Stina erzählt dem Pinguin - Treppe runter gefallen.wav" -ar 16000 -ac 1 -c:a pcm_s16le "samples/Stina erzählt dem Pinguin - Treppe runter gefallen_2.wav""
+``` 
+
+Transcription command:  
+```
+./main -f samples/jfk.wav -m models/ggml-tiny.bin --output-txt --output-srt --output-json-full -l de --output-file samples --font-path samples/DejaVuSansMono.ttf
+```
+whisper-large-q5_0
+```
+./main -m models/ggml-model-whisper-large-q5_0.bin --output-txt --output-srt --output-json-full -l de --output-file samples --font-path samples/DejaVuSansMono.ttf --print-progress -f samples/jfk.wav
+```
+---
+
+```
 ## More audio samples
 
 If you want some extra audio samples to play with, simply run:
@@ -424,6 +472,15 @@ With NVIDIA cards the processing of the models is done efficiently on the GPU vi
 First, make sure you have installed `cuda`: https://developer.nvidia.com/cuda-downloads
 
 Now build `whisper.cpp` with CUDA support:
+
+```
+sudo apt install nvidia-cuda-toolkit
+```
+
+compute for the for the **GeForce GTX 960**
+```
+export CUDA_DOCKER_ARCH=compute_52
+```
 
 ```
 make clean
